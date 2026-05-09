@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Eco-Task | Gestión Sostenible</title>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h1>Task Manager</h1>
+            <p id="task-counter">Tareas pendientes: 0</p>
+        </header>
+
+        <form id="task-form" novalidate>
+            <div class="input-group">
+                <input type="text" id="title" placeholder="Título de la tarea (mín. 3 caracteres)" required>
+                <span class="error-msg" id="title-error"></span>
+            </div>
+            
+            <div class="input-group">
+                <textarea id="description" placeholder="Descripción breve..." rows="3"></textarea>
+                <span class="error-msg" id="desc-error"></span>
+            </div>
+
+            <button type="submit" id="add-btn">Añadir Tarea</button>
+        </form>
+
+        <div class="filters">
+            <input type="text" id="search-bar" placeholder="Buscar tareas...">
+        </div>
+
+        <ul id="task-list-container" class="task-list"></ul>
+    </div>
+
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h3>Editar Tarea</h3>
+            <input type="text" id="edit-title">
+            <textarea id="edit-description" rows="4"></textarea>
+            <div class="modal-actions">
+                <button id="save-edit" class="btn-save">Guardar Cambios</button>
+                <button id="cancel-edit" class="btn-cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./index.js"></script>
+</body>
+</html>
