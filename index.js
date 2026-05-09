@@ -94,7 +94,7 @@ function deleteTask(id) {
     ejecutarBusqueda(); 
 }
 
-// 8. Lógica del Modal (Abrir/Cerrar/Guardar)
+// 8. Lógica del Modal 
 function openEditModal(id) {
     const task = tasks.find(t => t.id === id);
     if (!task) return;
@@ -103,7 +103,7 @@ function openEditModal(id) {
     document.getElementById('edit-title').value = task.title;
     document.getElementById('edit-description').value = task.description;
     
-    // Mostramos el modal con flex para que se centre
+    
     editModal.style.display = 'flex';
 }
 
@@ -114,8 +114,6 @@ function closeModal() {
 
 // Evento para cerrar si se pulsa el botón cancelar
 document.getElementById('cancel-edit').onclick = closeModal;
-
-// Cerrar modal si el usuario hace clic fuera del contenido blanco
 window.onclick = (event) => {
     if (event.target == editModal) {
         closeModal();
