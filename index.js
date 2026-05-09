@@ -11,19 +11,17 @@ const searchBar = document.getElementById('search-bar');
 
 // 3. Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-    renderTasks(); // Muestra las tareas al cargar
+    renderTasks();
 });
 
 // 4. Renderizado 
 function renderTasks(tasksToDisplay = tasks) {
     taskList.innerHTML = '';
-    
-    // Actualizacion del contador de tareas
     taskCounter.textContent = `Tareas pendientes: ${tasks.length}`;
 
     if (tasksToDisplay.length === 0) {
         const mensaje = tasks.length === 0 ? 'No hay tareas aún' : 'No hay coincidencias';
-        taskList.innerHTML = `<li style="text-align:center; color:#888; padding:20px; list-style:none;">${mensaje}</li>`;
+        taskList.innerHTML = `<li style="text-align:center; color:#94a3b8; padding:20px; list-style:none;">${mensaje}</li>`;
         return;
     }
 
@@ -42,7 +40,6 @@ function renderTasks(tasksToDisplay = tasks) {
             </div>
         `;
 
-        // Eventos directos para evitar errores de ID
         li.querySelector('.btn-delete').onclick = () => deleteTask(task.id);
         li.querySelector('.btn-edit').onclick = () => openEditModal(task.id);
 
@@ -50,20 +47,14 @@ function renderTasks(tasksToDisplay = tasks) {
     });
 }
 
-// 5. Función "añadir tarea"
+// 5. Añadir tarea
 taskForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
     
     if (validateForm(title, description)) {
-        const newTask = {
-            id: Date.now(),
-            title,
-            description
-        };
-        
+        const newTask = { id: Date.now(), title, description };
         tasks.push(newTask);
         updateStorage(); 
         searchBar.value = ''; 
@@ -88,24 +79,22 @@ function validateForm(title, description) {
     }
 
     if (description.length > 100) {
-        document.getElementById('desc-error').textContent = 'Muy larga (máx 100)';
+        document.getElementById('desc-error').textContent = 'Máx 100 caracteres';
         isValid = false;
     } else {
         document.getElementById('desc-error').textContent = '';
     }
-
     return isValid;
 }
 
-// 7. Función "eliminar tarea"
+// 7. Eliminar tarea
 function deleteTask(id) {
     tasks = tasks.filter(t => t.id !== id);
     updateStorage();
-    // Ejecución de búsqueda para mantener el filtro activo después de eliminar
     ejecutarBusqueda(); 
 }
 
-// 8. Fúncion "editar tarea"
+// 8. Lógica del Modal (Abrir/Cerrar/Guardar)
 function openEditModal(id) {
     const task = tasks.find(t => t.id === id);
     if (!task) return;
@@ -113,9 +102,27 @@ function openEditModal(id) {
     currentEditingId = id;
     document.getElementById('edit-title').value = task.title;
     document.getElementById('edit-description').value = task.description;
+    
+    // Mostramos el modal con flex para que se centre
     editModal.style.display = 'flex';
 }
 
+function closeModal() {
+    editModal.style.display = 'none';
+    currentEditingId = null;
+}
+
+// Evento para cerrar si se pulsa el botón cancelar
+document.getElementById('cancel-edit').onclick = closeModal;
+
+// Cerrar modal si el usuario hace clic fuera del contenido blanco
+window.onclick = (event) => {
+    if (event.target == editModal) {
+        closeModal();
+    }
+};
+
+// Guardar cambios de edición
 document.getElementById('save-edit').onclick = () => {
     const newTitle = document.getElementById('edit-title').value.trim();
     const newDesc = document.getElementById('edit-description').value.trim();
@@ -127,17 +134,12 @@ document.getElementById('save-edit').onclick = () => {
         updateStorage();
         closeModal();
         ejecutarBusqueda(); 
+    } else {
+        alert("El título debe tener al menos 3 caracteres.");
     }
 };
 
-document.getElementById('cancel-edit').onclick = closeModal;
-
-function closeModal() {
-    editModal.style.display = 'none';
-    currentEditingId = null;
-}
-
-// 9. Lógica de búsqueda
+// 9. Búsqueda
 searchBar.addEventListener('input', ejecutarBusqueda);
 
 function ejecutarBusqueda() {

@@ -38,11 +38,15 @@
     <div id="edit-modal" class="modal">
         <div class="modal-content">
             <h3>Editar Tarea</h3>
-            <input type="text" id="edit-title">
-            <textarea id="edit-description" rows="4"></textarea>
+            <div class="input-group">
+                <input type="text" id="edit-title" placeholder="Nuevo título">
+            </div>
+            <div class="input-group">
+                <textarea id="edit-description" rows="4" placeholder="Nueva descripción"></textarea>
+            </div>
             <div class="modal-actions">
-                <button id="save-edit" class="btn-save">Guardar Cambios</button>
                 <button id="cancel-edit" class="btn-cancel">Cancelar</button>
+                <button id="save-edit" class="btn-save">Guardar Cambios</button>
             </div>
         </div>
     </div>
